@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export const ContactContext = createContext();
@@ -20,37 +20,45 @@ const contactReducer = (state, action) => {
   }
 };
 
-
 export const ContactProvider = ({ children }) => {
-    const [contacts, dispatch] = useReducer(contactReducer, []);
-    
-    const addContact = (contact) => {
-      dispatch({ type: 'ADD_CONTACT', payload: contact });
-    };
-  
-    const updateContact = (contact) => {
-      dispatch({ type: 'UPDATE_CONTACT', payload: contact });
-    };
-  
-    const deleteContact = (id) => {
-      dispatch({ type: 'DELETE_CONTACT', payload: id });
-    };
-  
-    const deleteMultipleContacts = (ids) => {
-      dispatch({ type: 'DELETE_MULTIPLE', payload: ids });
-    };
-  
-    return (
-      <ContactContext.Provider
-        value={{
-          contacts,
-          addContact,
-          updateContact,
-          deleteContact,
-          deleteMultipleContacts,
-        }}
-      >
-        {children}
-      </ContactContext.Provider>
-    );
+  const [contacts, dispatch] = useReducer(contactReducer, [], () => {
+    // مقدار اولیه از localStorage بخوانیم
+    const localData = localStorage.getItem("contacts");
+    return localData ? JSON.parse(localData) : [];
+  });
+
+  // هر وقت contacts تغییر کرد، توی localStorage ذخیره کن
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
+
+  const addContact = (contact) => {
+    dispatch({ type: "ADD_CONTACT", payload: contact });
   };
+
+  const updateContact = (contact) => {
+    dispatch({ type: "UPDATE_CONTACT", payload: contact });
+  };
+
+  const deleteContact = (id) => {
+    dispatch({ type: "DELETE_CONTACT", payload: id });
+  };
+
+  const deleteMultipleContacts = (ids) => {
+    dispatch({ type: "DELETE_MULTIPLE", payload: ids });
+  };
+
+  return (
+    <ContactContext.Provider
+      value={{
+        contacts,
+        addContact,
+        updateContact,
+        deleteContact,
+        deleteMultipleContacts,
+      }}
+    >
+      {children}
+    </ContactContext.Provider>
+  );
+};
