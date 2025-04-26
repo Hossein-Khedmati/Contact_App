@@ -1,0 +1,27 @@
+@font-face {
+  font-family: iranyekan;
+  src: url(./assets/Fonts/IRANYekan-Thin.eot);
+  src: url(./assets/Fonts/IRANYekan-Thin.woff);
+  src: url(./assets/Fonts/IRANYekan-Thin.woff2);
+  src: url(./assets/Fonts/IRANYekan-Thin.ttf);
+
+}
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+*{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: iranyekan;
+  font-weight: 600;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  direction: rtl;
+}
+
