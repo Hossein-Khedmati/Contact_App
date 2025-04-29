@@ -1,122 +1,115 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { ContactContext } from "../context/ContactContext";
-import { validateForm } from "../Functions/ValidateForm";
 import { RxCross2 } from "react-icons/rx";
-import { IoMdAdd } from "react-icons/io";
-
 import styles from "./ModalForm.module.css";
+
+// اسکیمای اعتبارسنجی با yup
+const schema = yup.object().shape({
+  name: yup
+    .string()
+    .required("نام نمی‌تواند خالی باشد.")
+    .min(3, "نام باید حداقل ۳ کاراکتر باشد.")
+    .max(20, "نام نمی‌تواند بیش از ۲۰ کاراکتر باشد."),
+  email: yup
+    .string()
+    .required("ایمیل الزامی است.")
+    .email("ایمیل معتبر نیست."),
+  phone: yup
+    .string()
+    .required("شماره تلفن الزامی است.")
+    .matches(/^(\d{8}|\d{11})$/, "شماره تلفن باید ۸ یا ۱۱ رقمی باشد."),
+  job: yup
+    .string()
+    .required("شغل الزامی است.")
+    .max(30, "شغل نمی‌تواند بیش از ۳۰ کاراکتر باشد."),
+});
 
 const ModalForm = ({ closeModal, editingContact, setEditingContact }) => {
   const { addContact, updateContact } = useContext(ContactContext);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    job: "",
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
-  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (editingContact) {
-      setFormData(editingContact);
+      setValue("name", editingContact.name);
+      setValue("email", editingContact.email);
+      setValue("phone", editingContact.phone);
+      setValue("job", editingContact.job);
+    } else {
+      reset();
     }
-  }, [editingContact]);
+  }, [editingContact, setValue, reset]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const validationErrors = validateForm(formData);
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
+  const onSubmit = (data) => {
+    const newData={...data}
     if (editingContact) {
-      updateContact(formData);
+      updateContact({ ...editingContact, ...data });
       setEditingContact(null);
     } else {
-      addContact(formData);
+      addContact(newData); // اینجا دیتا باید درست باشه
     }
-
-    setFormData({ name: "", email: "", phone: "", job: "" });
-    setErrors({});
+    reset();
     closeModal();
   };
+  
 
   return (
     <div className={styles.modalBackdrop}>
       <div className={styles.modalContent}>
         <h3>{editingContact ? "ویرایش مخاطب" : "افزودن مخاطب"}</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <input
-              name="name"
               placeholder="نام"
-              value={formData.name}
-              onChange={handleChange}
-              className={`${styles.input} ${
-                errors.name ? styles.errorInput : ""
-              }`}
+              {...register("name")}
+              className={`${styles.input} ${errors.name ? styles.errorInput : ""}`}
             />
-            {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
+            {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
           </div>
 
           <div>
             <input
-              name="email"
               placeholder="ایمیل"
-              value={formData.email}
-              onChange={handleChange}
-              className={`${styles.input} ${
-                errors.email ? styles.errorInput : ""
-              }`}
+              {...register("email")}
+              className={`${styles.input} ${errors.email ? styles.errorInput : ""}`}
             />
-            {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+            {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
           </div>
 
           <div>
             <input
-              name="phone"
               placeholder="تلفن"
-              value={formData.phone}
-              onChange={handleChange}
-              className={`${styles.input} ${
-                errors.phone ? styles.errorInput : ""
-              }`}
+              {...register("phone")}
+              className={`${styles.input} ${errors.phone ? styles.errorInput : ""}`}
             />
-            {errors.phone && <p style={{ color: "red" }}>{errors.phone}</p>}
+            {errors.phone && <p style={{ color: "red" }}>{errors.phone.message}</p>}
           </div>
 
           <div>
             <input
-              name="job"
               placeholder="شغل"
-              value={formData.job}
-              onChange={handleChange}
-              className={`${styles.input} ${
-                errors.job ? styles.errorInput : ""
-              }`}
+              {...register("job")}
+              className={`${styles.input} ${errors.job ? styles.errorInput : ""}`}
             />
-            {errors.job && <p style={{ color: "red" }}>{errors.job}</p>}
+            {errors.job && <p style={{ color: "red" }}>{errors.job.message}</p>}
           </div>
 
           <button className={styles.addbutton} type="submit">
             {editingContact ? "ذخیره تغییرات" : "افزودن"}
           </button>
 
-          <button
-            className={styles.closebutton}
-            type="button"
-            onClick={closeModal}
-          >
+          <button className={styles.closebutton} type="button" onClick={closeModal}>
             <RxCross2 />
           </button>
         </form>

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 export const ContactContext = createContext();
 
 const contactReducer = (state, action) => {
+
   switch (action.type) {
     case "ADD_CONTACT":
       return [...state, { ...action.payload, id: uuidv4() }];
