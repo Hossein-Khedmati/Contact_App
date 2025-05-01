@@ -1,12 +1,68 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 📇 Contact App
 
-Currently, two official plugins are available:
+A simple yet functional contact management application built with **React**, utilizing **Context API** and **useReducer** for state management, and **react-hook-form** with **Yup** for robust form validation.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- Add new contacts with input validation
+- Edit existing contact details
+- Delete single or multiple contacts
+- Real-time search among contacts
+- Confirmation modal before deletion
+- Data persistence using `localStorage`
+- User-friendly UI with error handling
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠 Tech Stack
+
+- **React**
+- **Context API + useReducer**
+- **React Hook Form**
+- **Yup**
+- **React Icons**
+- **CSS Modules**
+- **LocalStorage (browser)**
+
+## 📦 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Hossein-Khedmati/Contact_App.git
+
+# Navigate into the project directory
+cd Contact_App
+
+# Install dependencies
+npm install
+
+# Run the development server
+npm run dev
+```
+
+## 📁 Folder Structure
+
+```
+src/
+├── components/
+│   ├── ContactList.jsx
+│   ├── ModalForm.jsx
+│   ├── ConfirmModal.jsx
+├── context/
+│   └── ContactContext.js
+├── App.jsx
+└── index.js
+```
+
+## 🖼 Screenshots
+
+(public/Screenshot.png)
+
+## 👨‍💻 Developer
+
+Made with ❤️ by **Hossein Khedmati**  
+GitHub: [@Hossein-Khedmati](https://github.com/Hossein-Khedmati/Contact_App.git)  
+Email: khedmati.hossein1382@gmail.com (optional)
+
+---
+
+Feel free to contribute, fork, or use this project as a starter template for your own CRUD applications!
