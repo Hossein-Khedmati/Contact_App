@@ -55,7 +55,7 @@ src/
 
 ## 🖼 Screenshots
 
-(public/Screenshot.png)
+![(public/Screenshot.png)](https://github.com/Hossein-Khedmati/Contact_App/blob/develop/public/Screenshot.png)
 
 ## 👨‍💻 Developer
 
