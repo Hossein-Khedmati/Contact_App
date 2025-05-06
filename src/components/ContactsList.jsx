@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
 import { ContactContext } from "../context/ContactContext";
 import ConfirmModal from "./ConfirmModal";
-
 import styles from "./ContactList.module.css";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 const ContactList = ({ setEditingContact, setShowModal, searchTerm, selectMode }) => {
-  const { contacts, deleteContact } = useContext(ContactContext);
+  const { contacts, deleteContact, deleteMultipleContacts } = useContext(ContactContext);
+
   const [selectedIds, setSelectedIds] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleteMode, setDeleteMode] = useState(null);
@@ -40,6 +40,23 @@ const ContactList = ({ setEditingContact, setShowModal, searchTerm, selectMode }
     deleteMode === "single"
       ? "آیا مطمئنی که می‌خوای این مخاطب را حذف کنی؟"
       : `آیا مطمئنی که می‌خوای ${selectedIds.length} مخاطب انتخاب‌شده را حذف کنی؟`;
+
+  const handleConfirmDelete = () => {
+    if (deleteMode === "single" && contactToDelete) {
+      deleteContact(contactToDelete);
+      setSuccessMessage("مخاطب با موفقیت حذف شد ✅");
+    } else if (deleteMode === "multiple") {
+      deleteMultipleContacts(selectedIds);
+      setSuccessMessage(`${selectedIds.length} مخاطب با موفقیت حذف شدند ✅`);
+      setSelectedIds([]);
+    }
+
+    setDeleteMode(null);
+    setContactToDelete(null);
+    setShowConfirm(false);
+
+    setTimeout(() => setSuccessMessage(""), 3000);
+  };
 
   return (
     <>
@@ -108,20 +125,7 @@ const ContactList = ({ setEditingContact, setShowModal, searchTerm, selectMode }
           setContactToDelete(null);
           setShowConfirm(false);
         }}
-        onConfirm={() => {
-          if (deleteMode === "single" && contactToDelete) {
-            deleteContact(contactToDelete);
-            setSuccessMessage("مخاطب با موفقیت حذف شد ✅");
-          } else if (deleteMode === "multiple") {
-            selectedIds.forEach((id) => deleteContact(id));
-            setSelectedIds([]);
-            setSuccessMessage(`${selectedIds.length} مخاطب با موفقیت حذف شدند ✅`);
-          }
-          setDeleteMode(null);
-          setContactToDelete(null);
-          setShowConfirm(false);
-          setTimeout(() => setSuccessMessage(""), 3000);
-        }}
+        onConfirm={handleConfirmDelete}
       />
     </>
   );

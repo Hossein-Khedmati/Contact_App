@@ -23,7 +23,6 @@ const schema = yup.object().shape({
     .matches(/^(\d{8}|\d{11})$/, "شماره تلفن باید ۸ یا ۱۱ رقمی باشد."),
   job: yup
     .string()
-    .required("شغل الزامی است.")
     .max(30, "شغل نمی‌تواند بیش از ۳۰ کاراکتر باشد."),
 });
 
@@ -57,7 +56,7 @@ const ModalForm = ({ closeModal, editingContact, setEditingContact }) => {
       updateContact({ ...editingContact, ...data });
       setEditingContact(null);
     } else {
-      addContact(newData); // اینجا دیتا باید درست باشه
+      addContact(newData);
     }
     reset();
     closeModal();
