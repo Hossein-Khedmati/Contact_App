@@ -1,25 +1,29 @@
-
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+// vite.config.js
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+    // THIS IS THE KEY - Force Vite to resolve these extensions
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+    // Add aliases to make imports cleaner
     alias: {
-      '@': '/src',
-      '@components': '/src/components',
-      '@context': '/src/context'
-    }
+      "@": "/src",
+      "@components": "/src/components",
+      "@context": "/src/context",
+    },
   },
+  // Ensure build process handles everything
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks: undefined
-      }
-    }
-  }
-})
+    commonjsOptions: {
+      include: [/node_modules/],
+      extensions: [".js", ".jsx"],
+    },
+  },
+  // Important for Vercel
+  base: "./",
+});
 
 // import { defineConfig } from 'vite'
 // import react from '@vitejs/plugin-react'
