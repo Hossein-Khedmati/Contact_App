@@ -13,17 +13,12 @@ const schema = yup.object().shape({
     .required("نام نمی‌تواند خالی باشد.")
     .min(3, "نام باید حداقل ۳ کاراکتر باشد.")
     .max(20, "نام نمی‌تواند بیش از ۲۰ کاراکتر باشد."),
-  email: yup
-    .string()
-    .required("ایمیل الزامی است.")
-    .email("ایمیل معتبر نیست."),
+  email: yup.string().required("ایمیل الزامی است.").email("ایمیل معتبر نیست."),
   phone: yup
     .string()
     .required("شماره تلفن الزامی است.")
     .matches(/^(\d{8}|\d{11})$/, "شماره تلفن باید ۸ یا ۱۱ رقمی باشد."),
-  job: yup
-    .string()
-    .max(30, "شغل نمی‌تواند بیش از ۳۰ کاراکتر باشد."),
+  job: yup.string().max(30, "شغل نمی‌تواند بیش از ۳۰ کاراکتر باشد."),
 });
 
 const ModalForm = ({ closeModal, editingContact, setEditingContact }) => {
@@ -51,7 +46,7 @@ const ModalForm = ({ closeModal, editingContact, setEditingContact }) => {
   }, [editingContact, setValue, reset]);
 
   const onSubmit = (data) => {
-    const newData={...data}
+    const newData = { ...data };
     if (editingContact) {
       updateContact({ ...editingContact, ...data });
       setEditingContact(null);
@@ -61,7 +56,6 @@ const ModalForm = ({ closeModal, editingContact, setEditingContact }) => {
     reset();
     closeModal();
   };
-  
 
   return (
     <div className={styles.modalBackdrop}>
@@ -74,7 +68,9 @@ const ModalForm = ({ closeModal, editingContact, setEditingContact }) => {
               {...register("name")}
               className={`${styles.input} ${errors.name ? styles.errorInput : ""}`}
             />
-            {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
+            {errors.name && (
+              <p style={{ color: "red" }}>{errors.name.message}</p>
+            )}
           </div>
 
           <div>
@@ -83,7 +79,9 @@ const ModalForm = ({ closeModal, editingContact, setEditingContact }) => {
               {...register("email")}
               className={`${styles.input} ${errors.email ? styles.errorInput : ""}`}
             />
-            {errors.email && <p style={{ color: "red" }}>{errors.email.message}</p>}
+            {errors.email && (
+              <p style={{ color: "red" }}>{errors.email.message}</p>
+            )}
           </div>
 
           <div>
@@ -92,7 +90,9 @@ const ModalForm = ({ closeModal, editingContact, setEditingContact }) => {
               {...register("phone")}
               className={`${styles.input} ${errors.phone ? styles.errorInput : ""}`}
             />
-            {errors.phone && <p style={{ color: "red" }}>{errors.phone.message}</p>}
+            {errors.phone && (
+              <p style={{ color: "red" }}>{errors.phone.message}</p>
+            )}
           </div>
 
           <div>
@@ -108,7 +108,11 @@ const ModalForm = ({ closeModal, editingContact, setEditingContact }) => {
             {editingContact ? "ذخیره تغییرات" : "افزودن"}
           </button>
 
-          <button className={styles.closebutton} type="button" onClick={closeModal}>
+          <button
+            className={styles.closebutton}
+            type="button"
+            onClick={closeModal}
+          >
             <RxCross2 />
           </button>
         </form>
