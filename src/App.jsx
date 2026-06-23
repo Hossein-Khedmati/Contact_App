@@ -1,4 +1,4 @@
-import { ContactProvider } from './Context/ContactContext';
+import { ContactProvider } from '@context/ContactContext.jsx';
 import ContactPage from './components/ContactPage';
 
 function App() {
