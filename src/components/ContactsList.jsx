@@ -1,11 +1,17 @@
 import React, { useContext, useState } from "react";
-import { ContactContext } from "../context/ContactContext";
+import { ContactContext } from "../context/ContactContext.jsx";
 import ConfirmModal from "./ConfirmModal";
 import styles from "./ContactList.module.css";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
-const ContactList = ({ setEditingContact, setShowModal, searchTerm, selectMode }) => {
-  const { contacts, deleteContact, deleteMultipleContacts } = useContext(ContactContext);
+const ContactList = ({
+  setEditingContact,
+  setShowModal,
+  searchTerm,
+  selectMode,
+}) => {
+  const { contacts, deleteContact, deleteMultipleContacts } =
+    useContext(ContactContext);
 
   const [selectedIds, setSelectedIds] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -15,7 +21,7 @@ const ContactList = ({ setEditingContact, setShowModal, searchTerm, selectMode }
 
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
     );
   };
 
