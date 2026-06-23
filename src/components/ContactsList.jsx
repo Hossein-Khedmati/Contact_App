@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { ContactContext } from "../context/ContactContext";
+import { ContactContext } from "../Context/ContactContext";
 import ConfirmModal from "./ConfirmModal";
 import styles from "./ContactList.module.css";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";

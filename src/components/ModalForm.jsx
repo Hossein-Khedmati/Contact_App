@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ContactContext } from "../context/ContactContext";
+import { ContactContext } from "../Context/ContactContext";
 import { RxCross2 } from "react-icons/rx";
 import styles from "./ModalForm.module.css";
 
