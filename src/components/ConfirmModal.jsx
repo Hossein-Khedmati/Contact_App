@@ -8,8 +8,8 @@ const ConfirmModal = ({ isOpen, onConfirm, onCancel, message }) => {
       <div style={modalStyle}>
         <p style={{ marginBottom: '1rem' }}>{message || 'آیا مطمئنی؟'}</p>
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <button onClick={onCancel} style={btnCancel}>لغو</button>
-          <button onClick={onConfirm} style={btnDelete}>تایید</button>
+          <button style={btnCancel} onClick={onCancel} style={btnCancel}>لغو</button>
+          <button style={btnDelete} onClick={onConfirm} style={btnDelete}>تایید</button>
         </div>
       </div>
     </div>
@@ -38,17 +38,21 @@ const modalStyle = {
 };
 
 const btnCancel = {
-  marginRight: '1rem',
+  width:'60px',
   backgroundColor: '#eee',
   padding: '0.5rem 1rem',
   border: 'none',
   cursor: 'pointer',
+  borderRadius: '0 10px 10px 0'
 };
 
 const btnDelete = {
+  width:'60px',
+
   backgroundColor: 'red',
   color: 'white',
   padding: '0.5rem 1rem',
   border: 'none',
   cursor: 'pointer',
+  borderRadius: '10px 0 0 10px'
 };
